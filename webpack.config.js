@@ -1,12 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({template: './src/app.html', filename: 'app.html', inject: 'body'});
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/app.js',
   output: {
-    path: path.resolve(__dirname, 'bin'),
+    path: path.resolve(__dirname, 'build'),
+    publicPath: '/build/',
     filename: 'app.bundle.js'
   },
   module: {
@@ -28,3 +29,5 @@ module.exports = {
   },
   plugins: [HtmlWebpackPluginConfig]
 }
+
+new webpack.SourceMapDevToolPlugin({test: 'js|jsx|scss', filename: '[name].js.map', exclude: ['vendor.js']});

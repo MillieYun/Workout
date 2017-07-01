@@ -1,11 +1,12 @@
 {
-  "name": "Workout",
+  "name": "bumber-plates-calculator",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Millie Ho",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
   },
   "dependencies": {
     "autoprefixer-loader": "^3.2.0",
@@ -22,7 +23,9 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2017": "^6.24.1",
-    "babel-preset-react": "^6.24.1"
+    "babel-preset-react": "^6.24.1",
+    "source-map-loader": "^0.2.1"
   }
 }
