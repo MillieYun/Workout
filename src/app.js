@@ -3,4 +3,4 @@ import ReactDOM from 'react-dom';
 import Calculator from './Calculator.jsx';
 
 ReactDOM.render(
-    <Calculator />, document.getElementById('app'));
+    <Calculator/>, document.getElementById('app'));
