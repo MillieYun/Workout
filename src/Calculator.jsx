@@ -153,8 +153,10 @@ class Calculator extends React.Component {
         return pickPlates
     }
 
-    handleTargetChange = value => {
-        this.setState({targetWeight: Number(value)});
+    handleTargetChange = event => {
+        this.setState({
+            targetWeight: Number(event.target.value)
+        });
     };
 
     handleBarChange = event => {
@@ -303,7 +305,6 @@ class Calculator extends React.Component {
                         <span>KG</span>
                     </div>
                     <input type="button" value="確定" onClick={this.handleCreatePlate}/>
-
                 </div>
             </div>
         );
