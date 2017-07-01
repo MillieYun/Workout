@@ -80,7 +80,7 @@ class Calculator extends React.Component {
             plates = cloneDeep(this.state.plates),
             isPlatesEnough = totalPlatesWeight >= leftWeight;
 
-        if (this.state.targetWeight == 0) 
+        if (targetWeight == 0) 
             return <div>Please setting your target weight</div>;
         
         if (!isPlatesEnough) 
@@ -90,16 +90,25 @@ class Calculator extends React.Component {
 
         var result = map(pickPlates, (weight, index) => (
             <div key={`Plate_${weight}_${index}`}>
-                {weight}
-                x 2
+                {`${weight} x 2`}
             </div>
         ));
 
-        result.push(
+        var sumOfWeight = sum(pickPlates) * 2 + barWeight;
+
+        result.unshift(
             <div key={`Plate_Sum`}>
-                Total: {sum(pickPlates) * 2 + barWeight}
+                Total: {sumOfWeight}
             </div>
-        )
+        );
+
+        if (sumOfWeight < targetWeight) {
+            result.push(
+                <div key={`Plate_NoEnough`}>
+                    {`Not Enought Weight for ${targetWeight - sumOfWeight} KG`}
+                </div>
+            );
+        }
 
         return result;
 
