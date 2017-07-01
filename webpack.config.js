@@ -7,7 +7,7 @@ module.exports = {
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, './build'),
-    publicPath: '',
+    publicPath: '/Workout',
     filename: 'lib.bundle.js'
   },
   module: {
