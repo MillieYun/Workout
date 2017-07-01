@@ -6,8 +6,8 @@ const webpack = require('webpack')
 module.exports = {
   entry: './src/app.js',
   output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: '/',
+    path: path.resolve(__dirname, './'),
+    publicPath: '',
     filename: 'lib.bundle.js'
   },
   module: {
