@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({template: './src/app.html', filename: 'app.html', inject: 'body'});
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({template: './src/app.html', filename: 'index.html', inject: 'body'});
 const webpack = require('webpack')
 
 module.exports = {
