@@ -1,4 +1,6 @@
 import React from 'react';
+import WeightSetting from './WeightSetting.jsx';
+import PlateList from './PlateList.jsx';
 import {
     cloneDeep,
     forEach,
@@ -11,6 +13,7 @@ import {
     isEmpty,
     isEqual
 } from 'lodash';
+import {AppBar, TextField, RaisedButton} from 'material-ui';
 
 class Calculator extends React.Component {
 
@@ -196,6 +199,7 @@ class Calculator extends React.Component {
                     onClick={this
                     .handlePlateStockUpdate
                     .bind(this, p.weight)}>
+
                     <span
                         className="remove"
                         style={{
@@ -211,7 +215,7 @@ class Calculator extends React.Component {
                     <span
                         style={{
                         display: 'inline-block'
-                    }}>{`Stock: ${p.stock}`}</span>
+                    }}>{`數量: ${p.stock}`}</span>
 
                 </div>
             );
@@ -221,13 +225,14 @@ class Calculator extends React.Component {
 
     handleCreatePlate = () => {
 
-        if (isEmpty(this.newPlate) || this.newPlate.value <= 0) 
+        if (isEmpty(this.newPlate) || this.newPlate.input.value <= 0) 
             return null;
         
-        var plates = cloneDeep(this.state.plates);
+        var plates = cloneDeep(this.state.plates),
+            createPlateWeight = this.newPlate.input.value;
 
-        plates[this.newPlate.value] = {
-            weight: Number(this.newPlate.value),
+        plates[createPlateWeight] = {
+            weight: Number(createPlateWeight),
             stock: 2
         };
 
@@ -238,44 +243,19 @@ class Calculator extends React.Component {
     render() {
         return (
             <div>
-                <h3>設定重量</h3>
-                <div className="input-group">
-                    <label
-                        style={{
-                        display: 'block'
-                    }}
-                        htmlFor="BarWeight">槓重</label>
-                    <input
-                        type="number"
-                        placeholder="槓重"
-                        name="bar"
-                        id="BarWeight"
-                        defaultValue={this.state.barWeight}
-                        onChange={event => this.handleBarChange(event)}/>
-                    <span>KG</span>
-                </div>
-                <div className="input-group">
-                    <label
-                        style={{
-                        display: 'block'
-                    }}
-                        htmlFor="TargetWeight">目標重量</label>
-                    <input
-                        type="number"
-                        placeholder="重量"
-                        name="target"
-                        id="TargetWeight"
-                        defaultValue={this.state.targetWeight}
-                        onChange={event => this.handleTargetChange(event)}/>
-                    <span>KG</span>
-                </div>
+                <AppBar title="槓片計算機" showMenuIconButton={false}/>
+
+                <WeightSetting
+                    barWeight={this.state.barWeight}
+                    onWeightChange={this.handleBarChange}
+                    onTargetWeightChange={this.handleTargetChange}/>
 
                 <hr/>
-
-                <h3>參考槓片組合</h3>
-                <div className="result">
-                    {this.renderSelecedPlates()}
-                </div>
+                <PlateList
+                    barWeight={this.state.barWeight}
+                    targetWeight={this.state.targetWeight}
+                    totalPlatesWeight={this.state.totalPlatesWeight}
+                    plates={this.state.plates}/>
 
                 <hr/>
 
@@ -284,27 +264,19 @@ class Calculator extends React.Component {
                     {this.renderPlatesStock(this.state.plates)}
                 </div>
 
-                <hr/>
-
-                <h3>新增槓片</h3>
                 <div>
-                    <div className="input-group">
-                        <label htmlFor="NewPlateWeight">新槓片重</label>
-                        <input
-                            type="number"
-                            placeholder="槓重"
-                            name="newPlate"
-                            ref={(input) => this.newPlate = input}
-                            id="NewPlateWeight"
-                            onKeyPress={(event) => {
-                            console.log(event.target.key);
-                            event.key == 'Enter'
-                                ? this.handleCreatePlate()
-                                : null
-                        }}/>
-                        <span>KG</span>
-                    </div>
-                    <input type="button" value="確定" onClick={this.handleCreatePlate}/>
+                    <TextField
+                        hintText="KG"
+                        type="number"
+                        ref={(input) => this.newPlate = input}
+                        floatingLabelText="新槓片重"/>
+                    <RaisedButton
+                        label="確定"
+                        primary={true}
+                        onTouchTap={this.handleCreatePlate}
+                        style={{
+                        margin: 12
+                    }}/>
                 </div>
             </div>
         );
