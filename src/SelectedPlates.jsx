@@ -21,8 +21,6 @@ class SelectedPlates extends React.Component {
 
         var result = this.getSelectedPlates(barWeight, targetWeight, cloneDeep(plates), totalPlatesWeight);
 
-        console.log(result);
-
         this.state = {
             sumOfWeight: result.sumOfWeight,
             selectedPlates: result.selectedPlates
@@ -47,16 +45,12 @@ class SelectedPlates extends React.Component {
 
             var result = this.getSelectedPlates(barWeight, targetWeight, cloneDeep(plates), totalPlatesWeight);
 
-            console.log('will update: ', result);
-
             this.setState({sumOfWeight: result.sumOfWeight, selectedPlates: result.selectedPlates});
         }
 
     }
 
     renderPlates = () => {
-
-        console.log('render: ', this.state);
 
         if (this.props.targetWeight == 0) 
             return <div>請先設定目標重量</div>;
