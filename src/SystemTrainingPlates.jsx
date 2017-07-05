@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {isEqual, map, cloneDeep} from 'lodash';
+import {isEqual, map, cloneDeep, sum} from 'lodash';
 import PickPlatesHelper from './PickPlatesHelper.jsx';
 import Plates from './Plates.jsx';
 class SystemTrainingPlates extends Component {
@@ -77,31 +77,39 @@ class SystemTrainingPlates extends Component {
 
   }
 
-  renderWarmUpSet = (weightSet) => {
+  renderPlateSets = (weightSet) => {
 
-    var weightSet = this.state.trainingWeightSet;
     var {plates, barWeight, totalPlatesWeight} = this.props;
 
     var result = map(weightSet, (set, index) => {
 
-      var selectedPlates = PickPlatesHelper.getPlatesSet(barWeight, set.targetWeight, cloneDeep(plates), totalPlatesWeight);
-
-      console.log(`${index}: `, selectedPlates)
-
-      var style = (index != 0 && index != (weightSet.length - 1)) && set.type != weightSet[index + 1].type
-        ? {
-          borderBottom: '1px solid #ccc',
-          paddingBottom: 16
-        }
-        : {};
+      var selectedPlates = PickPlatesHelper.getPlatesSet(barWeight, set.targetWeight, cloneDeep(plates), totalPlatesWeight),
+        sumOfWeight = sum(selectedPlates) * 2 + barWeight,
+        isPlatesEnough = sumOfWeight >= set.targetWeight;
 
       return (
-        <div key={`set_${index}`} style={style}>
-          <h3>{`${set.rep} - ${set.targetWeight} KG`}</h3>
+        <div key={`set_${index}`}>
+          <h3 style={{
+            marginBottom: '0'
+          }}>{`${set.rep} - ${set.targetWeight} KG`} {isPlatesEnough
+              ? <span
+                  style={{
+                  fontSize: '80%',
+                  color: '#ccc',
+                  paddingLeft: 10
+                }}>{`驗算: ${sumOfWeight}KG`}</span>
+              : <span
+                style={{
+                fontSize: '80%',
+                color: 'red',
+                paddingLeft: 10
+              }}>{`槓片不足 ${set.targetWeight - sumOfWeight} KG, 尚需 ${ (set.targetWeight - sumOfWeight) / 2} KG x 2`}</span>}
+          </h3>
+
           <Plates
             selectedPlates={selectedPlates}
             isPlatesEnough=
-            { (set.targetWeight - barWeight) <= totalPlatesWeight }/>
+            {(set.targetWeight - barWeight) <= totalPlatesWeight}/>
         </div>
       );
     });
@@ -109,14 +117,30 @@ class SystemTrainingPlates extends Component {
     return result;
   }
 
-  renderTrainingSet = () => {}
-
   render() {
+
+    var warmUpSet = this
+        .state
+        .trainingWeightSet
+        .slice(0, 3),
+      trainingSet = this
+        .state
+        .trainingWeightSet
+        .slice(3, 7);
+
     return (
       <div>
-        <div>
+        <div
+          style={{
+          borderBottom: '1px solid #ccc',
+          paddingBottom: 16
+        }}>
           <h3>Warm Up</h3>
-          {this.renderWarmUpSet(this.state.trainingWeightSet)}
+          {this.renderPlateSets(warmUpSet)}
+        </div>
+        <div>
+          <h3>Training</h3>
+          {this.renderPlateSets(trainingSet)}
         </div>
       </div>
     );

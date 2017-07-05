@@ -23,7 +23,7 @@ class WeightSetting extends React.Component {
                     hintText="KG"
                     type="number"
                     floatingLabelText="目標總重量"
-                    defaultValue={this.props.targetWeight}
+                    value={this.props.targetWeight}
                     onChange={this.props.onTargetWeightChange}/>
 
                 <TextField
