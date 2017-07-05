@@ -91,7 +91,7 @@ class SystemTrainingPlates extends Component {
         <div key={`set_${index}`}>
           <h3 style={{
             marginBottom: '0'
-          }}>{`${set.rep} - ${set.targetWeight} KG`} {isPlatesEnough
+          }}>{`${set.rep} reps - ${set.targetWeight} KG`} {isPlatesEnough
               ? <span
                   style={{
                   fontSize: '80%',
@@ -135,11 +135,11 @@ class SystemTrainingPlates extends Component {
           borderBottom: '1px solid #ccc',
           paddingBottom: 16
         }}>
-          <h3>Warm Up</h3>
+          <h3>暖身</h3>
           {this.renderPlateSets(warmUpSet)}
         </div>
         <div>
-          <h3>Training</h3>
+          <h3>訓練</h3>
           {this.renderPlateSets(trainingSet)}
         </div>
       </div>

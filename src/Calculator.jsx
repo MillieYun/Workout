@@ -204,7 +204,7 @@ class Calculator extends React.Component {
                 <WeightSetting
                     barWeight={barWeight}
                     targetWeight={targetWeight}
-                    onWeightChange={this.handleBarChange}
+                    onBarWeightChange={this.handleBarChange}
                     onTargetWeightChange={this.handleTargetChange}/>
 
                 <Checkbox

@@ -21,6 +21,8 @@ class SelectedPlates extends React.Component {
 
         var result = this.getSelectedPlates(barWeight, targetWeight, cloneDeep(plates), totalPlatesWeight);
 
+        console.log(result);
+
         this.state = {
             sumOfWeight: result.sumOfWeight,
             selectedPlates: result.selectedPlates
@@ -45,15 +47,16 @@ class SelectedPlates extends React.Component {
 
             var result = this.getSelectedPlates(barWeight, targetWeight, cloneDeep(plates), totalPlatesWeight);
 
-            this.state = {
-                sumOfWeight: result.sumOfWeight,
-                selectedPlates: result.selectedPlates
-            }
+            console.log('will update: ', result);
+
+            this.setState({sumOfWeight: result.sumOfWeight, selectedPlates: result.selectedPlates});
         }
 
     }
 
     renderPlates = () => {
+
+        console.log('render: ', this.state);
 
         if (this.props.targetWeight == 0) 
             return <div>請先設定目標重量</div>;
@@ -72,18 +75,18 @@ class SelectedPlates extends React.Component {
         return (
             <div>
 
-                <h3>使用槓片組合</h3>
-
-                {sumOfWeight > 0
-                    ? (
-                        <div>
-                            {`實際總重量: ${sumOfWeight} KG`}
-                        </div>
-                    )
-                    : null
-}
-
-                <br/>
+                <h3 style={{
+                    marginBottom: 8
+                }}>使用槓片組合
+                    <span
+                        style={{
+                        fontSize: '80%',
+                        paddingLeft: 16,
+                        color: '#ccc'
+                    }}>
+                        {`驗算: ${sumOfWeight} KG`}
+                    </span>
+                </h3>
 
                 <div>
                     {this.renderPlates()}
