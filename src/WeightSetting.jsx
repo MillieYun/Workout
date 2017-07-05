@@ -6,7 +6,8 @@ class WeightSetting extends React.Component {
     defaultProps = {
         onBarWeightChange() {},
         onTargetWeightChange() {},
-        barWeight: 20
+        barWeight: 20,
+        targetWeight: 0
     }
 
     constructor(props) {
@@ -22,7 +23,9 @@ class WeightSetting extends React.Component {
                     hintText="KG"
                     type="number"
                     floatingLabelText="目標總重量"
+                    defaultValue={this.props.targetWeight}
                     onChange={this.props.onTargetWeightChange}/>
+
                 <TextField
                     hintText="KG"
                     type="number"

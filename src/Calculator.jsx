@@ -1,6 +1,7 @@
 import React from 'react';
 import WeightSetting from './WeightSetting.jsx';
-import PlateList from './PlateList.jsx';
+import SelectedPlates from './SelectedPlates.jsx';
+import SystemTrainingPlates from './SystemTrainingPlates.jsx';
 import {
     cloneDeep,
     forEach,
@@ -14,6 +15,7 @@ import {
     isEqual
 } from 'lodash';
 import {AppBar, TextField, RaisedButton} from 'material-ui';
+import Checkbox from 'material-ui/Checkbox';
 
 class Calculator extends React.Component {
 
@@ -56,7 +58,8 @@ class Calculator extends React.Component {
             },
             targetWeight: 0,
             barWeight: 20,
-            totalPlatesWeight: 0
+            totalPlatesWeight: 0,
+            isSystemTraining: false
         };
 
     };
@@ -89,71 +92,6 @@ class Calculator extends React.Component {
         });
 
         return weight;
-    }
-
-    renderSelecedPlates = () => {
-
-        var targetWeight = this.state.targetWeight,
-            barWeight = this.state.barWeight,
-            leftWeight = targetWeight - barWeight,
-            totalPlatesWeight = this.state.totalPlatesWeight,
-            plates = cloneDeep(this.state.plates),
-            isPlatesEnough = totalPlatesWeight >= leftWeight;
-
-        if (targetWeight == 0) 
-            return <div>請先設定目標重量</div>;
-        
-        if (!isPlatesEnough) 
-            return <div>槓片不足</div>
-
-        var pickPlates = this.pickPlates(leftWeight, plates);
-
-        var result = map(pickPlates, (weight, index) => (
-            <div key={`Plate_${weight}_${index}`}>
-                {`${weight} x 2`}
-            </div>
-        ));
-
-        var sumOfWeight = sum(pickPlates) * 2 + barWeight;
-
-        result.unshift(
-            <div key={`Plate_Sum`}>
-                Total: {sumOfWeight}
-            </div>
-        );
-
-        if (sumOfWeight < targetWeight) {
-            result.push(
-                <div key={`Plate_NoEnough`}>
-                    {`Not Enought Weight for ${targetWeight - sumOfWeight} KG`}
-                </div>
-            );
-        }
-
-        return result;
-
-    };
-
-    pickPlates = (leftWeight, plates) => {
-
-        var pickPlates = [];
-
-        while (leftWeight > 0) {
-            var halfOfLeftWeight = leftWeight / 2;
-            var usablePlates = filter(plates, (p) => p.weight <= halfOfLeftWeight && p.stock > 0);
-
-            if (isEmpty(usablePlates)) {
-                leftWeight = 0;
-            } else {
-                var selected = maxBy(usablePlates, (p, index) => p.weight);
-
-                leftWeight -= selected.weight * 2;
-                pickPlates.push(selected.weight);
-                plates[selected.weight].stock -= 2;
-            }
-        }
-
-        return pickPlates
     }
 
     handleTargetChange = event => {
@@ -240,22 +178,53 @@ class Calculator extends React.Component {
 
     }
 
+    onCheckSystemTraining = (event, isChecked) => {
+        this.setState({isSystemTraining: isChecked})
+    }
+
     render() {
+
+        const styles = {
+            block: {
+                maxWidth: 250
+            },
+            checkbox: {
+                marginBottom: 16,
+                marginTop: 16
+
+            }
+        };
+
+        var {barWeight, targetWeight, totalPlatesWeight, plates, isSystemTraining} = this.state;
+
         return (
             <div>
                 <AppBar title="槓片計算機" showMenuIconButton={false}/>
 
                 <WeightSetting
-                    barWeight={this.state.barWeight}
+                    barWeight={barWeight}
+                    targetWeight={targetWeight}
                     onWeightChange={this.handleBarChange}
                     onTargetWeightChange={this.handleTargetChange}/>
 
-                <hr/>
-                <PlateList
-                    barWeight={this.state.barWeight}
-                    targetWeight={this.state.targetWeight}
-                    totalPlatesWeight={this.state.totalPlatesWeight}
-                    plates={this.state.plates}/>
+                <Checkbox
+                    label="使用 5 5 8 12"
+                    checked={isSystemTraining}
+                    style={styles.checkbox}
+                    onCheck={this.onCheckSystemTraining}/>
+
+                <hr/> {isSystemTraining
+                    ? <SystemTrainingPlates
+                            barWeight={barWeight}
+                            targetWeight={targetWeight}
+                            totalPlatesWeight={totalPlatesWeight}
+                            plates={plates}/>
+                    : <SelectedPlates
+                        barWeight={barWeight}
+                        targetWeight={targetWeight}
+                        totalPlatesWeight={totalPlatesWeight}
+                        plates={plates}/>
+}
 
                 <hr/>
 
