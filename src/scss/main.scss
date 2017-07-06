@@ -1,0 +1,37 @@
+$basic-space: 24px;
+$border-color: #ddd;
+
+body {
+  margin: 0;
+  font-family: 'Roboto','Lato', sans-serif;
+}
+
+@mixin sectionContent {
+    margin-left: -$basic-space;
+    margin-right: -$basic-space;
+    padding-left: $basic-space;
+    padding-right: $basic-space;
+}
+
+.app-body {
+  padding: 0 $basic-space $basic-space;
+
+  h3 {
+    @include sectionContent;
+    margin-top: 0;
+    margin-bottom: $basic-space / 2;
+    background: #eee;
+    padding-top: $basic-space / 2;
+    padding-bottom: $basic-space / 2;
+
+  }
+
+  .panel {
+    @include sectionContent;
+    border-bottom: 1px solid $border-color;
+
+    &:last-of-type {
+      border-bottom: 0;
+    }
+  }
+}

@@ -18,7 +18,6 @@ class WeightSetting extends React.Component {
     render() {
         return (
             <div>
-                <h3>設定重量</h3>
                 <TextField
                     hintText="KG"
                     type="number"

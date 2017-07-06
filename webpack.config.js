@@ -22,7 +22,11 @@ module.exports = {
         exclude: /node_modules/
       }, {
         test: /\.scss$/,
-        loader: 'style!css!autoprefixer!sass',
+        loader: 'style-loader!css-loader!sass-loader', //!autoprefixer
+        exclude: /node_modules/
+      }, {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader',
         exclude: /node_modules/
       }
     ]

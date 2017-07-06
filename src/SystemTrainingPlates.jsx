@@ -89,7 +89,7 @@ class SystemTrainingPlates extends Component {
 
       return (
         <div key={`set_${index}`}>
-          <h3 style={{
+          <h4 style={{
             marginBottom: '0'
           }}>{`${set.rep} reps - ${set.targetWeight} KG`} {isPlatesEnough
               ? <span
@@ -104,7 +104,7 @@ class SystemTrainingPlates extends Component {
                 color: 'red',
                 paddingLeft: 10
               }}>{`槓片不足 ${set.targetWeight - sumOfWeight} KG, 尚需 ${ (set.targetWeight - sumOfWeight) / 2} KG x 2`}</span>}
-          </h3>
+          </h4>
 
           <Plates
             selectedPlates={selectedPlates}

@@ -1,3 +1,4 @@
+import './scss/form.scss';
 import React from 'react';
 import WeightSetting from './WeightSetting.jsx';
 import SelectedPlates from './SelectedPlates.jsx';
@@ -198,54 +199,61 @@ class Calculator extends React.Component {
         var {barWeight, targetWeight, totalPlatesWeight, plates, isSystemTraining} = this.state;
 
         return (
-            <div>
+            <div className="container">
                 <AppBar title="槓片計算機" showMenuIconButton={false}/>
+                <div className="app-body">
 
-                <WeightSetting
-                    barWeight={barWeight}
-                    targetWeight={targetWeight}
-                    onBarWeightChange={this.handleBarChange}
-                    onTargetWeightChange={this.handleTargetChange}/>
+                    <section className="panel">
+                        <h3>設定重量</h3>
 
-                <Checkbox
-                    label="使用 5 5 8 12"
-                    checked={isSystemTraining}
-                    style={styles.checkbox}
-                    onCheck={this.onCheckSystemTraining}/>
-
-                <hr/> {isSystemTraining
-                    ? <SystemTrainingPlates
+                        <WeightSetting
                             barWeight={barWeight}
                             targetWeight={targetWeight}
-                            totalPlatesWeight={totalPlatesWeight}
-                            plates={plates}/>
-                    : <SelectedPlates
-                        barWeight={barWeight}
-                        targetWeight={targetWeight}
-                        totalPlatesWeight={totalPlatesWeight}
-                        plates={plates}/>
+                            onBarWeightChange={this.handleBarChange}
+                            onTargetWeightChange={this.handleTargetChange}/>
+
+                        <Checkbox
+                            label="使用 5 5 8 12"
+                            checked={isSystemTraining}
+                            style={styles.checkbox}
+                            onCheck={this.onCheckSystemTraining}/>
+
+                    </section>
+                    <section className="panel">
+                        {isSystemTraining
+                            ? <SystemTrainingPlates
+                                    barWeight={barWeight}
+                                    targetWeight={targetWeight}
+                                    totalPlatesWeight={totalPlatesWeight}
+                                    plates={plates}/>
+                            : <SelectedPlates
+                                barWeight={barWeight}
+                                targetWeight={targetWeight}
+                                totalPlatesWeight={totalPlatesWeight}
+                                plates={plates}/>
 }
 
-                <hr/>
+                    </section>
+                    <section className="panel">
 
-                <h3>槓片庫存</h3>
-                <div>
-                    {this.renderPlatesStock(this.state.plates)}
-                </div>
+                        <h3>槓片庫存</h3>
+                        <div>
+                            {this.renderPlatesStock(this.state.plates)}
+                        </div>
 
-                <div>
-                    <TextField
-                        hintText="KG"
-                        type="number"
-                        ref={(input) => this.newPlate = input}
-                        floatingLabelText="新槓片重"/>
-                    <RaisedButton
-                        label="確定"
-                        primary={true}
-                        onTouchTap={this.handleCreatePlate}
-                        style={{
-                        margin: 12
-                    }}/>
+                        <TextField
+                            hintText="KG"
+                            type="number"
+                            ref={(input) => this.newPlate = input}
+                            floatingLabelText="新槓片重"/>
+                        <RaisedButton
+                            label="確定"
+                            primary={true}
+                            onTouchTap={this.handleCreatePlate}
+                            style={{
+                            margin: 12
+                        }}/>
+                    </section>
                 </div>
             </div>
         );
