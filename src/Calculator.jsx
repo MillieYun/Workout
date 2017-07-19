@@ -185,17 +185,6 @@ class Calculator extends React.Component {
 
     render() {
 
-        const styles = {
-            block: {
-                maxWidth: 250
-            },
-            checkbox: {
-                marginBottom: 16,
-                marginTop: 16
-
-            }
-        };
-
         var {barWeight, targetWeight, totalPlatesWeight, plates, isSystemTraining} = this.state;
 
         return (
@@ -215,7 +204,6 @@ class Calculator extends React.Component {
                         <Checkbox
                             label="使用 5 5 8 12"
                             checked={isSystemTraining}
-                            style={styles.checkbox}
                             onCheck={this.onCheckSystemTraining}/>
 
                     </section>
@@ -232,7 +220,6 @@ class Calculator extends React.Component {
                                 totalPlatesWeight={totalPlatesWeight}
                                 plates={plates}/>
 }
-
                     </section>
                     <section className="panel">
 

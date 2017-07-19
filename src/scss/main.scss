@@ -29,9 +29,20 @@ body {
   .panel {
     @include sectionContent;
     border-bottom: 1px solid $border-color;
+    padding-bottom: $basic-space;
 
     &:last-of-type {
       border-bottom: 0;
+    }
+
+    header {
+      @include sectionContent;
+      background: #eee;
+      padding: $basic-space/2 $basic-space;
+    }
+
+    .panel-body {
+      padding-bottom: $basic-space;
     }
   }
 }

@@ -130,16 +130,12 @@ class SystemTrainingPlates extends Component {
 
     return (
       <div>
-        <div
-          style={{
-          borderBottom: '1px solid #ccc',
-          paddingBottom: 16
-        }}>
-          <h3>暖身</h3>
+        <header>暖身</header>
+        <div className="panel-body">
           {this.renderPlateSets(warmUpSet)}
         </div>
-        <div>
-          <h3>訓練</h3>
+        <header>訓練</header>
+        <div className="panel-body">
           {this.renderPlateSets(trainingSet)}
         </div>
       </div>
