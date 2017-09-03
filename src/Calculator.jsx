@@ -58,30 +58,37 @@ class Calculator extends React.Component {
                 }
             },
             targetWeight: 0,
-            barWeight: 20,
+            barWeight: 35,
             totalPlatesWeight: 0,
-            isSystemTraining: false
+            isSystemTraining: false,
+            isStockOpen: false
         };
 
     };
 
     componentDidMount = () => {
 
-        if (isEmpty(history.state)) {
+        var storeKey = this.storeKey;
+
+        if (isEmpty(localStorage.getItem(storeKey))) {
             this.setState({
                 totalPlatesWeight: this.calculatorSumOfPlatesWeight(this.state.plates)
             })
         } else {
-            this.setState(history.state);
+            var restore = JSON.parse(localStorage.getItem(storeKey));
+            this.setState(restore);
         }
 
     }
 
+    storeKey = 'Bumper';
+
     componentDidUpdate = (prevProps, prevState) => {
-        if (isEmpty(history.state)) {
-            history.pushState(this.state, 'Bumper');
-        } else if (!isEqual(prevState, this.state)) {
-            history.replaceState(this.state, 'Bumper');
+
+        var storeKey = this.storeKey;
+
+        if (!isEqual(prevState, this.state)) {
+            localStorage.setItem(storeKey, JSON.stringify(this.state));
         }
     }
 
@@ -120,7 +127,7 @@ class Calculator extends React.Component {
                 : selectedPlate.stock + 2;
         }
 
-        this.setState({plates: plates})
+        this.setState({plates: plates});
     }
 
     renderPlatesStock = (plates) => {
@@ -131,30 +138,16 @@ class Calculator extends React.Component {
             return (
                 <div
                     key={`StockPlate_${p.weight}`}
-                    style={{
-                    'borderBottom': '1px solid #ddd',
-                    padding: '5px'
-                }}
+                    className="list-item"
                     onClick={this
                     .handlePlateStockUpdate
                     .bind(this, p.weight)}>
 
-                    <span
-                        className="remove"
-                        style={{
-                        float: 'right'
-                    }}>
+                    <span className="remove">
                         刪除
                     </span>
-                    <span
-                        style={{
-                        display: 'inline-block',
-                        width: '100px'
-                    }}>{`${p.weight} KG`}</span>
-                    <span
-                        style={{
-                        display: 'inline-block'
-                    }}>{`數量: ${p.stock}`}</span>
+                    <span className="plate-weight">{`${p.weight} KG`}</span>
+                    <span>{`數量: ${p.stock}`}</span>
 
                 </div>
             );
@@ -179,13 +172,26 @@ class Calculator extends React.Component {
 
     }
 
+    handleStockBlock = () => {
+        this.setState({
+            isStockOpen: !this.state.isStockOpen
+        })
+    }
+
     onCheckSystemTraining = (event, isChecked) => {
         this.setState({isSystemTraining: isChecked})
     }
 
     render() {
 
-        var {barWeight, targetWeight, totalPlatesWeight, plates, isSystemTraining} = this.state;
+        var {
+            barWeight,
+            targetWeight,
+            totalPlatesWeight,
+            plates,
+            isSystemTraining,
+            isStockOpen
+        } = this.state;
 
         return (
             <div className="container">
@@ -221,25 +227,28 @@ class Calculator extends React.Component {
                                 plates={plates}/>
 }
                     </section>
-                    <section className="panel">
+                    <section className="panel"></section>
+                    <section className={'panel'}>
 
-                        <h3>槓片庫存</h3>
-                        <div>
-                            {this.renderPlatesStock(this.state.plates)}
+                        <h3>槓片庫存
+                            <span className="adjust" onClick={this.handleStockBlock}>調整庫存</span>
+                        </h3>
+
+                        <div
+                            className={(isStockOpen
+                            ? ' show'
+                            : ' hide')}>
+                            <div className={"list"}>
+                                {this.renderPlatesStock(this.state.plates)}
+                            </div>
+
+                            <TextField
+                                hintText="KG"
+                                type="number"
+                                ref={(input) => this.newPlate = input}
+                                floatingLabelText="新槓片重"/>
+                            <RaisedButton label="確定" primary={true} onTouchTap={this.handleCreatePlate}/>
                         </div>
-
-                        <TextField
-                            hintText="KG"
-                            type="number"
-                            ref={(input) => this.newPlate = input}
-                            floatingLabelText="新槓片重"/>
-                        <RaisedButton
-                            label="確定"
-                            primary={true}
-                            onTouchTap={this.handleCreatePlate}
-                            style={{
-                            margin: 12
-                        }}/>
                     </section>
                 </div>
             </div>

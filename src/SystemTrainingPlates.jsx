@@ -81,17 +81,17 @@ class SystemTrainingPlates extends Component {
 
     var {plates, barWeight, totalPlatesWeight} = this.props;
 
-    var result = map(weightSet, (set, index) => {
+    var result = map(weightSet, (actionSet, index) => {
 
-      var selectedPlates = PickPlatesHelper.getPlatesSet(barWeight, set.targetWeight, cloneDeep(plates), totalPlatesWeight),
+      var selectedPlates = PickPlatesHelper.getPlatesSet(barWeight, actionSet.targetWeight, cloneDeep(plates), totalPlatesWeight),
         sumOfWeight = sum(selectedPlates) * 2 + barWeight,
-        isPlatesEnough = sumOfWeight >= set.targetWeight;
+        isPlatesEnough = sumOfWeight >= actionSet.targetWeight;
 
       return (
         <div key={`set_${index}`}>
           <h4 style={{
             marginBottom: '0'
-          }}>{`${set.rep} reps - ${set.targetWeight} KG`} {isPlatesEnough
+          }}>{`${actionSet.rep} reps - ${actionSet.targetWeight} KG`} {isPlatesEnough
               ? <span
                   style={{
                   fontSize: '80%',
@@ -103,13 +103,10 @@ class SystemTrainingPlates extends Component {
                 fontSize: '80%',
                 color: 'red',
                 paddingLeft: 10
-              }}>{`槓片不足 ${set.targetWeight - sumOfWeight} KG, 尚需 ${ (set.targetWeight - sumOfWeight) / 2} KG x 2`}</span>}
+              }}>{`槓片不足 ${actionSet.targetWeight - sumOfWeight} KG, 尚需 ${ (actionSet.targetWeight - sumOfWeight) / 2} KG x 2`}</span>}
           </h4>
 
-          <Plates
-            selectedPlates={selectedPlates}
-            isPlatesEnough=
-            {(set.targetWeight - barWeight) <= totalPlatesWeight}/>
+          <Plates selectedPlates={selectedPlates} isPlatesEnough={isPlatesEnough}/>
         </div>
       );
     });

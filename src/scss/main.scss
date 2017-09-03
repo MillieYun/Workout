@@ -44,5 +44,36 @@ body {
     .panel-body {
       padding-bottom: $basic-space;
     }
+
+    .show {
+      display: initial;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .adjust {
+      font-size: 0.8em;
+      font-weight: 100;
+    }
+  
+  }
+}
+
+.list {
+  .list-item {
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+    span {
+      display: inline-block;
+    }
+    .plate-weight {
+      width: 100px;
+    }
+    .remove {
+      float: right;
+      cursor: pointer;
+    }
   }
 }
