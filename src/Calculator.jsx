@@ -60,7 +60,7 @@ class Calculator extends React.Component {
             targetWeight: 0,
             barWeight: 35,
             totalPlatesWeight: 0,
-            isSystemTraining: false,
+            isSystemTraining: true,
             isStockOpen: false
         };
 
@@ -133,7 +133,6 @@ class Calculator extends React.Component {
     renderPlatesStock = (plates) => {
 
         plates = sortBy(plates, (p) => p.weight);
-        console.log(plates);
 
         return map(plates, (p) => {
             return (
@@ -228,11 +227,22 @@ class Calculator extends React.Component {
                                 plates={plates}/>
 }
                     </section>
-                    <section className="panel"></section>
-                    <section className={'panel'}>
 
-                        <h3>槓片庫存
-                            <span className="adjust" onClick={this.handleStockBlock}>調整庫存</span>
+                    <section className={'panel'}>
+                        <h3>
+                            <RaisedButton
+                                className="adjust"
+                                onTouchTap={this.handleStockBlock}
+                                label={isStockOpen
+                                ? '收合'
+                                : '開啟'}
+                                primary={true}
+                                style={{
+                                marginTop: '-5px',
+                                marginBottom: '1em',
+                                float: 'right'
+                            }}/>
+                            有哪些槓片:
                         </h3>
 
                         <div
@@ -247,8 +257,15 @@ class Calculator extends React.Component {
                                 hintText="KG"
                                 type="number"
                                 ref={(input) => this.newPlate = input}
-                                floatingLabelText="新槓片重"/>
-                            <RaisedButton label="確定" primary={true} onTouchTap={this.handleCreatePlate}/>
+                                floatingLabelText="槓片重"
+                                fullWidth={true}/>
+                            <RaisedButton
+                                label="增加"
+                                style={{
+                                float: 'clear'
+                            }}
+                                primary={true}
+                                onTouchTap={this.handleCreatePlate}/>
                         </div>
                     </section>
                 </div>

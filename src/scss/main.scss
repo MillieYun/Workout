@@ -45,13 +45,7 @@ body {
       padding-bottom: $basic-space;
     }
 
-    .show {
-      display: initial;
-    }
-
-    .hide {
-      display: none;
-    }
+    
 
     .adjust {
       font-size: 0.8em;
@@ -59,6 +53,14 @@ body {
     }
   
   }
+}
+
+.show {
+  display: initial;
+}
+
+.hide {
+  display: none;
 }
 
 .list {
