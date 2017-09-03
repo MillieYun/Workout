@@ -6,7 +6,9 @@ const webpack = require('webpack');
 
 module.exports = function (env, args) {
 
-  var isProd = process.env.NODE_ENV === 'production';
+  const isProd = process
+    .argv
+    .indexOf('-p') !== -1;
 
   return {
     entry: './src/app.js',
@@ -14,7 +16,6 @@ module.exports = function (env, args) {
       ? ''
       : 'eval-source-map',
     output: {
-      //publicPath: '/Workout',
       filename: 'lib.bundle.js',
       path: path.resolve(__dirname, 'dist')
     },
@@ -41,10 +42,7 @@ module.exports = function (env, args) {
     },
     plugins: [
       HtmlWebpackPluginConfig,
-      // new UglifyJSPlugin({   compress: args['optimize-minimize'] // 只有传入 -p 或
-      // --optimize-minimize })
+      new UglifyJSPlugin({compress: isProd})
     ]
   };
 }
-
-new webpack.SourceMapDevToolPlugin({test: 'js|jsx|scss', filename: '[name].js.map', exclude: ['vendor.js']});

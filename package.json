@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --watch",
-    "build": "NODE_ENV=production webpack -p"
+    "build": "webpack -p"
   },
   "dependencies": {
     "autoprefixer": "^7.1.1",
