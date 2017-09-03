@@ -133,6 +133,7 @@ class Calculator extends React.Component {
     renderPlatesStock = (plates) => {
 
         plates = sortBy(plates, (p) => p.weight);
+        console.log(plates);
 
         return map(plates, (p) => {
             return (
